@@ -2,8 +2,6 @@ from django.db import models
 
 # Create your models here.
 
-from django.db import models
-
 
 class ProgrammingLanguage(models.Model):
     name = models.CharField(max_length=100)
@@ -46,7 +44,3 @@ class PythonTopic(models.Model):
         return self.name
 
 
-class User(models.Model):
-    username = models.CharField(max_length=100)
-    email = models.EmailField(unique=True)
-    date_of_birth = models.DateField()

@@ -1,7 +1,7 @@
 from rest_framework import serializers
 # from urllib3 import Url
 
-from app_report.models import PythonFramework, PythonLibrary, ProgrammingLanguage, PythonTopic, User
+from app_report.models import PythonFramework, PythonLibrary, ProgrammingLanguage, PythonTopic
 
 
 class PythonFrameworkSerializer(serializers.ModelSerializer):
@@ -27,11 +27,6 @@ class PythonTopicSerializer(serializers.ModelSerializer):
         model = PythonTopic
         fields = '__all__'
 
-
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ('id', 'username', 'email')
 
 
 class ChangePasswordSerializer(serializers.ModelSerializer):

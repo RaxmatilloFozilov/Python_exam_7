@@ -52,8 +52,9 @@ INSTALLED_APPS = [
     # 'django_framework',
     'django_filters',
     'rest_framework_simplejwt',
-
+    # My_app
     'app_report',
+    'users',
 
 ]
 
