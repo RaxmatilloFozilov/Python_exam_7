@@ -4,10 +4,11 @@ from rest_framework.routers import DefaultRouter
 
 
 from .views import (
-    ProgrammingLanguageViewSet,
-    PythonLibraryViewSet,
-    PythonFrameworkViewSet,
-    PythonTopicViewSet,
+    ProgrammingLanguageViewSet, ProgrammingLanguageCreateViewSet, ProgrammingLanguageUpdateViewSet,
+    ProgrammingLanguageDeleteViewSet,
+    PythonLibraryViewSet, PythonLibraryUpdateViewSet, PythonLibraryCreateViewSet, PythonLibraryDeleteViewSet,
+    PythonFrameworkViewSet, PythonFrameworkUpdateViewSet, PythonFrameworkCreateViewSet,
+    PythonTopicViewSet, PythonTopicCreateViewSet, PythonTopicUpdateViewSet, PythonTopicDeleteViewSet
 
 )
 
@@ -18,4 +19,20 @@ router.register(r'topics', PythonTopicViewSet)
 router.register(r'libraries', PythonLibraryViewSet)
 
 
-urlpatterns = router.urls
+urlpatterns = [
+    # path('api/v1/programming_language/', include('routing.urls')),
+    path('create/', ProgrammingLanguageCreateViewSet.as_view()),
+    path('update/<int:pk>/', ProgrammingLanguageUpdateViewSet.as_view()),
+    path('delete/<int:pk>/', ProgrammingLanguageDeleteViewSet.as_view()),
+
+    path('create/', PythonFrameworkCreateViewSet.as_view()),
+    path('update/<int:pk>/', PythonFrameworkUpdateViewSet.as_view()),
+
+    path('create/', PythonLibraryCreateViewSet.as_view()),
+    path('update/<int:pk>/', PythonLibraryUpdateViewSet.as_view()),
+    path('delete/<int:pk>/', PythonLibraryDeleteViewSet.as_view()),
+
+    path('create/', PythonTopicCreateViewSet.as_view()),
+    path('update/<int:pk>/', PythonTopicUpdateViewSet.as_view()),
+    path('delete/<int:pk>/', PythonTopicDeleteViewSet.as_view()),
+] + router.urls

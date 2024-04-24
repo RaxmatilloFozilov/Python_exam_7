@@ -137,6 +137,15 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+if DEBUG is False:
+    STATIC_ROOT = 'static/'
+
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+    # BASE_DIR / 'media',
+
+]
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
@@ -149,6 +158,8 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
 
+     #    'DEFAULT_PAGINATION_CLASS' : None
+     # 'PAGE_SIZE': 10,
     )
 }
 

@@ -28,7 +28,8 @@ schema_view = get_schema_view(
         default_version='v1',
         description="Backend for python project",
         terms_of_service="https://www.google.com/policies/terms/",
-        contact=openapi.Contact(email="contact@snippets.local"),
+        contact=openapi.Contact(email="contact@snippets"
+                                      ".local"),
         license=openapi.License(name="BSD License"),
     ),
     public=True,
@@ -39,7 +40,7 @@ schema_view = get_schema_view(
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/report', include('app_report.urls')),
-    path('api/v1/user', include('users.urls')),
+    path('api/v1/accounts/', include('users.urls')),
 
     # Jwt
     path('api/v1/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
