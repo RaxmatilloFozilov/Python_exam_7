@@ -7,7 +7,7 @@ class ProgrammingLanguage(models.Model):
     name = models.CharField(max_length=100)
     creation_time = models.DateTimeField()
     author = models.CharField(max_length=100)
-    logo = models.ImageField(upload_to='language_logos/')
+    logo = models.ImageField(upload_to='media/language_logos/')
     detailed_information = models.TextField()
 
     def __str__(self):
@@ -18,7 +18,7 @@ class PythonFramework(models.Model):
     name = models.CharField(max_length=100)
     creation_time = models.DateTimeField()
     author = models.CharField(max_length=100)
-    logo = models.ImageField(upload_to='framework_logos/')
+    logo = models.ImageField(upload_to='media/framework_logos/',default='')
     detailed_information = models.TextField()
 
     def __str__(self):
@@ -28,7 +28,6 @@ class PythonFramework(models.Model):
 class PythonLibrary(models.Model):
     name = models.CharField(max_length=100)
     detailed_information = models.TextField()
-
 
     def __str__(self):
         return self.name

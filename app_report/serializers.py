@@ -1,5 +1,5 @@
 from rest_framework import serializers
-# from urllib3 import Url
+
 
 from app_report.models import PythonFramework, PythonLibrary, ProgrammingLanguage, PythonTopic
 
@@ -15,10 +15,6 @@ class PythonFrameworkSerializer(serializers.ModelSerializer):
         model = PythonFramework
         fields = '__all__'
 
-
-    # def get_report_detail_url(self, obj):
-    #     return f"http://localhost:8000/api/v1/report{obj.id}"
-    #
 
 class PythonLibrarySerializer(serializers.ModelSerializer):
     class Meta:

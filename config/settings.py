@@ -49,7 +49,6 @@ INSTALLED_APPS = [
 
     'drf_yasg',
     'rest_framework',
-    # 'django_framework',
     'django_filters',
     'rest_framework_simplejwt',
     # My_app
@@ -135,8 +134,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-# MEDIA_URL = 'media/'
-# MEDIA_ROOT = 'media'
+MEDIA_URL = 'media/'
+MEDIA_ROOT = 'media'
 STATIC_URL = 'static/'
 
 if DEBUG is False:
@@ -185,7 +184,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'rahmatillafozilov5@gmail.com'
-EMAIL_HOST_PASSWORD = 'xtuv umyy cfoq kuyp'
+EMAIL_HOST_PASSWORD = 'xtuvumyycfoqkuyp'
 
 emails_list = {}
 sended_mails = {}
