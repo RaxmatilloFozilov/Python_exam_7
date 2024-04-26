@@ -1,7 +1,17 @@
-from rest_framework.generics import CreateAPIView, ListAPIView
-
-from .serializers import UserSerializer
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import api_view
+from rest_framework.generics import CreateAPIView
+from rest_framework.response import Response
+from config.settings import sended_mails, EMAIL_HOST_USER, emails_list
 from rest_framework.views import APIView
+from django.contrib.auth import authenticate, login
+from django.contrib.auth import get_user_model
+from users.serializers import UserSerializer
+from django.core.mail import send_mail
+from django.http import HttpResponse
+from random import randint
 
 
 class RegisterView(CreateAPIView):
@@ -11,34 +21,95 @@ class RegisterView(CreateAPIView):
         serializer.save()
 
 
-class ChangePasswordView(APIView):
-    def post(self, request):
-        serializer = ChangePasswordSerializer(data=request.data)
-        if serializer.is_valid():
-            # Parolni o'zgartirish logikasi
-            return Response("Parol muvaffaqiyatli o'zgartirildi", status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+@api_view(['POST'])
+def insert_email_4_change_password(request):
+    email = request.data['email']
+    user = get_user_model()
+    if user.objects.filter(email=email).exist():
+        num = randint(100000, 999999)
+        emails_list[email] = num
+        send_mail(
+            subject='Code for reset password',
+            message=f"Code for change your password: {num}\n",
+            from_email=EMAIL_HOST_USER,
+            recipient_list=[email],
+        )
+        return Response({'message': 'Code for reset password sent to your email'}, status=200)
+    else:
+        return Response({'message': 'Email does not exist'}, status=400)
 
 
-class ResetPasswordView(APIView):
-    def post(self, request):
-        serializer = ResetPasswordSerializer(data=request.data)
-        if serializer.is_valid():
-            # Parolni tiklash logikasi
-            return Response("Parolni tiklash uchun havola yuborildi", status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+@api_view(['POST'])
+def reset_password(request):
+    code = request.data['code']
+    email = request.data['email']
+    password1 = request.data['password1']
+    password2 = request.data['password2']
+    if password1 == password2:
+        try:
+            if code == emails_list[email]:
+                user = get_user_model().objects.get(email=email)
+                user.set_password(password1)
+                user.save()
+                del emails_list[email]
+                return Response('Password reset successful', status=200)
+            else:
+                return Response({'message': 'Email or code do not match'}, status=400)
+        except:
+            return Response({'message': 'Email or code do not match'}, status=400)
 
 
-# Basseyn view lar uchun
-class ExampleAPIView(APIView):
-    def get(self, request):
-        # Handle GET request
-        data = {'message': 'This is a GET request.'}
-        return Response(data, status=status.HTTP_200_OK)
+@api_view
+def login(request):
+    username = request.POST.get('username')
+    password = request.POST.get('password')
+    user = authenticate(username=username, password=password)
+    if user is not None:
+        login(request, user)
+        return Response({'message': 'Successfully logged in'})
+    else:
+        return Response({'error': 'Invalid username or password'}, status=400)
 
-    def post(self, request):
-        # Handle POST request
-        data = {'message': 'This is a POST request.'}
-        return Response(data, status=status.HTTP_201_CREATED)
+
+@api_view
+def change_password(request):
+    username = request.POST.get('username')
+    old_password = request.POST.get('old_password')
+    new_password = request.POST.get('new_password')
+    user = authenticate(username=username, password=old_password)
+    if user is not None:
+        user.set_password(new_password)
+        user.save()
+        return Response({'message': 'Successfully changed'})
+    else:
+        return Response({'error': 'Invalid username or password'}, status=401)
 
 
+@api_view(['POST'])
+def confirm_email(request):
+    try:
+        recipient_list = [request.POST.get('email')]
+        sended_mails[request.POST.get('email')] = f"{randint(100, 999)}-{randint(100, 999)}"
+
+        send_mail(
+            subject='Confirm email',
+            message=sended_mails[request.POST.get('email')],
+            from_email=EMAIL_HOST_USER,
+            recipient_list=recipient_list
+        )
+        return Response({'message': 'Code has been send'})
+    except Exception as e:
+        return HttpResponse(f"Wrong email or {e}")
+
+
+class LogoutView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    filter_backends = (DjangoFilterBackend,)
+
+    def post(self, request, *args, **kwargs):  # Agar so'rov qilgan foydalanuvchi tokeni bilan tasdiqlangan bo'lsa
+        if request.auth:  # Tokenni ma'lumotlar bazasidan o'chiramiz
+            request.auth.delete()
+            return Response({"detail": "Successfully logged out."}, status=200)
+        else:
+            return Response({"detail": "You have never been authenticated."}, status=401)

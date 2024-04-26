@@ -27,10 +27,8 @@ class PythonFramework(models.Model):
 
 class PythonLibrary(models.Model):
     name = models.CharField(max_length=100)
-    creation_time = models.DateTimeField()
-    author = models.CharField(max_length=100)
-    logo = models.ImageField(upload_to='library_logos/')
     detailed_information = models.TextField()
+
 
     def __str__(self):
         return self.name

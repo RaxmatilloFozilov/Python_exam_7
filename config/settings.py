@@ -135,6 +135,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
+MEDIA_URL = 'media/'
+MEDIA_ROOT = 'media'
 STATIC_URL = 'static/'
 
 if DEBUG is False:
@@ -152,20 +154,47 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+# REST_FRAMEWORK = {
+#     'DEFAULT_AUTHENTICATION_CLASSES': 'rest_framework.pagination.LimitOffsetPagination',
+#     'PAGE_SIZE': 20,
+#     'DEFAULT_AUTHENTICATION_CLASSES': (
+#         'rest_framework_simplejwt.authentication.JWTAuthentication',
+#
+#      #    'DEFAULT_PAGINATION_CLASS' : None
+#      # 'PAGE_SIZE': 10,
+#     )
+# }
+
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': 'rest_framework.pagination.LimitOffsetPagination',
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 20,
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-
-     #    'DEFAULT_PAGINATION_CLASS' : None
-     # 'PAGE_SIZE': 10,
     )
 }
 
 
+
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(days=1)
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "ROTATE_REFRESH_TOKENS": False,
+    "BLACKLIST_AFTER_ROTATION": False,
+    "UPDATE_LAST_LOGIN": True,
+
+
 }
 
+# LOGIN_URL = '/api/v1/repotr/'
 
+AUTH_USER_MODEL = 'users.CustomUser'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'rahmatillafozilov5@gmail.com'
+EMAIL_HOST_PASSWORD = 'xtuv umyy cfoq kuyp'
+
+emails_list = {}
+sended_mails = {}

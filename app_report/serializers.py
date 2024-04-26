@@ -4,19 +4,26 @@ from rest_framework import serializers
 from app_report.models import PythonFramework, PythonLibrary, ProgrammingLanguage, PythonTopic
 
 
+def get_reort_detail_url(obj):
+    return f"http://localhost:8000/api/v1/report/"
+
+
 class PythonFrameworkSerializer(serializers.ModelSerializer):
     python_detail_url = serializers.SerializerMethodField(read_only=True, source='get_python_detail_url')
 
     class Meta:
         model = PythonFramework
         fields = '__all__'
-        depth = 1
 
+
+    # def get_report_detail_url(self, obj):
+    #     return f"http://localhost:8000/api/v1/report{obj.id}"
+    #
 
 class PythonLibrarySerializer(serializers.ModelSerializer):
     class Meta:
         model = PythonLibrary
-        fields = ['name', 'creation_time', 'author', 'detailed_information']
+        fields = '__all__'
         depth = 1
 
 
@@ -41,6 +48,9 @@ class ChangePasswordSerializer(serializers.ModelSerializer):
 
 class ResetPasswordSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(required=True)
+
+
+
 
 
 

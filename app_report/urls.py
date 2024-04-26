@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 
 from rest_framework.routers import DefaultRouter
 
@@ -6,9 +6,9 @@ from rest_framework.routers import DefaultRouter
 from .views import (
     ProgrammingLanguageViewSet, ProgrammingLanguageCreateViewSet, ProgrammingLanguageUpdateViewSet,
     ProgrammingLanguageDeleteViewSet,
-    PythonLibraryViewSet, PythonLibraryUpdateViewSet, PythonLibraryCreateViewSet, PythonLibraryDeleteViewSet,
-    PythonFrameworkViewSet, PythonFrameworkUpdateViewSet, PythonFrameworkCreateViewSet,
-    PythonTopicViewSet, PythonTopicCreateViewSet, PythonTopicUpdateViewSet, PythonTopicDeleteViewSet
+    PythonLibraryViewSet,
+    PythonFrameworkViewSet,
+    PythonTopicViewSet,
 
 )
 
@@ -25,14 +25,18 @@ urlpatterns = [
     path('update/<int:pk>/', ProgrammingLanguageUpdateViewSet.as_view()),
     path('delete/<int:pk>/', ProgrammingLanguageDeleteViewSet.as_view()),
 
-    path('create/', PythonFrameworkCreateViewSet.as_view()),
-    path('update/<int:pk>/', PythonFrameworkUpdateViewSet.as_view()),
+    # path('create/', PythonFrameworkCreateViewSet.as_view()),
+    # path('update/<int:pk>/', PythonFrameworkUpdateViewSet.as_view()),
+    # # path('delete/<int:pk>/', ),
+    #
+    # path('create/', PythonLibraryCreateViewSet.as_view()),
+    # path('update/<int:pk>/', PythonLibraryUpdateViewSet.as_view()),
+    # path('delete/<int:pk>/', PythonLibraryDeleteViewSet.as_view()),
+    #
+    # path('create/', PythonTopicCreateViewSet.as_view()),
+    # path('update/<int:pk>/', PythonTopicUpdateViewSet.as_view()),
+    # path('delete/<int:pk>/', PythonTopicDeleteViewSet.as_view()),
 
-    path('create/', PythonLibraryCreateViewSet.as_view()),
-    path('update/<int:pk>/', PythonLibraryUpdateViewSet.as_view()),
-    path('delete/<int:pk>/', PythonLibraryDeleteViewSet.as_view()),
+    # path('', include(router.urls)),
 
-    path('create/', PythonTopicCreateViewSet.as_view()),
-    path('update/<int:pk>/', PythonTopicUpdateViewSet.as_view()),
-    path('delete/<int:pk>/', PythonTopicDeleteViewSet.as_view()),
 ] + router.urls

@@ -36,7 +36,7 @@ class PythonFrameworkViewSet(viewsets.ModelViewSet):
 class PythonLibraryViewSet(viewsets.ModelViewSet):
     queryset = PythonLibrary.objects.all()
     serializer_class = PythonLibrarySerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminUser]
 
 
 class PythonTopicViewSet(viewsets.ModelViewSet):
@@ -48,25 +48,7 @@ class PythonTopicViewSet(viewsets.ModelViewSet):
 class ProgrammingLanguageCreateViewSet(CreateAPIView):
     queryset = ProgrammingLanguage.objects
     serializer_class = ProgrammingLanguageSerializer
-    permission_classes = [IsAdminUser]
-
-
-class PythonFrameworkCreateViewSet(CreateAPIView):
-    queryset = PythonFramework.objects
-    serializer_class = PythonFrameworkSerializer
-    permission_classes = [IsAdminUser]
-
-
-class PythonLibraryCreateViewSet(CreateAPIView):
-    queryset = PythonLibrary.objects
-    serializer_class = PythonLibrarySerializer
-    permission_classes = [IsAdminUser]
-
-
-class PythonTopicCreateViewSet(CreateAPIView):
-    queryset = PythonTopic.objects
-    serializer_class = PythonTopicSerializer
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsAuthenticated]
 
 
 class ProgrammingLanguageUpdateViewSet(UpdateAPIView):
@@ -81,24 +63,6 @@ class ProgrammingLanguageUpdateViewSet(UpdateAPIView):
         return super().patch(request, *args, **kwargs)
 
 
-class PythonFrameworkUpdateViewSet(UpdateAPIView):
-    queryset = PythonFramework.objects.all()
-    serializer_class = PythonFrameworkSerializer
-    permission_classes = [IsAdminUser]
-
-
-class PythonLibraryUpdateViewSet(UpdateAPIView):
-    queryset = PythonLibrary.objects.all()
-    serializer_class = PythonLibrarySerializer
-    permission_classes = [IsAdminUser]
-
-
-class PythonTopicUpdateViewSet(UpdateAPIView):
-    queryset = PythonTopic.objects.all()
-    serializer_class = PythonTopicSerializer
-    permission_classes = [IsAdminUser]
-
-
 class ProgrammingLanguageDeleteViewSet(DestroyAPIView):
     queryset = ProgrammingLanguage.objects.all()
     serializer_class = ProgrammingLanguageSerializer
@@ -109,29 +73,3 @@ class ProgrammingLanguageDeleteViewSet(DestroyAPIView):
         return Response()
 
 
-class PythonFrameworkDeleteViewSet(DestroyAPIView):
-    queryset = PythonFramework.objects
-    serializer_class = PythonFrameworkSerializer
-    permission_classes = [IsAdminUser]
-
-    def delete(self, request, *args, **kwargs):
-        self.object.delete
-        return Response()
-
-
-class PythonLibraryDeleteViewSet(DestroyAPIView):
-    queryset = PythonLibrary.objects
-    serializer_class = PythonLibrarySerializer
-    permission_classes = [IsAdminUser]
-
-    def delete(self, *args, **kwargs):
-        return Response()
-
-
-class PythonTopicDeleteViewSet(DestroyAPIView):
-    queryset = PythonTopic.objects
-    serializer_class = PythonTopicSerializer
-    permission_classes = [IsAdminUser]
-
-    def delete(self, request, *args, **kwargs):
-        return Response()
