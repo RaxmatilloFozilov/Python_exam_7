@@ -31,14 +31,14 @@ def insert_email_4_change_password(request):
         num = randint(100000, 999999)
         emails_list[email] = num
         send_mail(
-            subject='Code for reset password',
-            message=f"Code for change your password: {num}\n",
+            subject=' Parolni tiklash uchun kod',
+            message=f" Parolni o'zgartirish uchun kod: {num}\n",
             from_email=EMAIL_HOST_USER,
             recipient_list=[email],
         )
-        return Response({'message': 'Code for reset password sent to your email'}, status=200)
+        return Response({'message': 'Parolni tiklash uchun kod yuborildi'}, status=200)
     else:
-        return Response({'message': 'Email does not exist'}, status=400)
+        return Response({'message': 'Elektron pochta mavjud emas'}, status=400)
 
 
 @api_view(['POST'])
@@ -54,11 +54,11 @@ def reset_password(request):
                 user.set_password(password1)
                 user.save()
                 del emails_list[email]
-                return Response('Password reset successful', status=200)
+                return Response('Parolni tiklash muvaffaqiyatli', status=200)
             else:
-                return Response({'message': 'Email or code do not match'}, status=400)
+                return Response({'message': 'Elektron pochta yoki kod mos emas'}, status=400)
         except:
-            return Response({'message': 'Email or code do not match'}, status=400)
+            return Response({'message': 'Elektron pochta yoki kod mos emas'}, status=400)
 
 
 @api_view
@@ -68,9 +68,9 @@ def login(request):
     user = authenticate(username=username, password=password)
     if user is not None:
         login(request, user)
-        return Response({'message': 'Successfully logged in'})
+        return Response({'message': 'Muvaffaqiyatli tizimga kirildi'})
     else:
-        return Response({'error': 'Invalid username or password'}, status=400)
+        return Response({'error': 'Yaroqsiz foydalanuvchi nomi yoki parol'}, status=400)
 
 
 @api_view
@@ -82,9 +82,9 @@ def change_password(request):
     if user is not None:
         user.set_password(new_password)
         user.save()
-        return Response({'message': 'Successfully changed'})
+        return Response({'message': 'Muvaffaqiyatli ozgartirildi'})
     else:
-        return Response({'error': 'Invalid username or password'}, status=401)
+        return Response({'error': 'Yaroqsiz foydalanuvchi nomi yoki parol'}, status=401)
 
 
 @api_view(['POST'])
@@ -99,9 +99,9 @@ def confirm_email(request):
             from_email=EMAIL_HOST_USER,
             recipient_list=recipient_list
         )
-        return Response({'message': 'Code has been send'})
+        return Response({'message': 'Kod yuborildi'})
     except Exception as e:
-        return HttpResponse(f"Wrong email or {e}")
+        return HttpResponse(f" Noto'g'ri elektron pochta yoki {e}")
 
 
 class LogoutView(APIView):
@@ -114,6 +114,6 @@ class LogoutView(APIView):
             request.auth.delete()
             return Response({"detail": "Hisobdan muvaffaqiyatli chiqdi ✅."}, status=200)
         else:
-            return Response({"detail": "Siz hech qachon autentifikatsiya qilinmagansiz ❎."}, status=401)
+            return Response({"detail": "Siz hech qachon autentifikatsiyadan o'tmagansiz ❎."}, status=401)
 
 
