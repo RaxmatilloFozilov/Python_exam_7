@@ -135,8 +135,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-MEDIA_URL = 'media/'
-MEDIA_ROOT = 'media'
+# MEDIA_URL = 'media/'
+# MEDIA_ROOT = 'media'
 STATIC_URL = 'static/'
 
 if DEBUG is False:
@@ -148,31 +148,22 @@ STATICFILES_DIRS = [
 
 ]
 
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-# REST_FRAMEWORK = {
-#     'DEFAULT_AUTHENTICATION_CLASSES': 'rest_framework.pagination.LimitOffsetPagination',
-#     'PAGE_SIZE': 20,
-#     'DEFAULT_AUTHENTICATION_CLASSES': (
-#         'rest_framework_simplejwt.authentication.JWTAuthentication',
-#
-#      #    'DEFAULT_PAGINATION_CLASS' : None
-#      # 'PAGE_SIZE': 10,
-#     )
-# }
-
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 20,
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
+
     )
 }
-
 
 
 SIMPLE_JWT = {
@@ -185,7 +176,7 @@ SIMPLE_JWT = {
 
 }
 
-# LOGIN_URL = '/api/v1/repotr/'
+LOGIN_URL = '/api/v1/repotr/'
 
 AUTH_USER_MODEL = 'users.CustomUser'
 

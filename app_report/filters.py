@@ -1,8 +1,9 @@
 from rest_framework.filters import BaseFilterBackend
 import coreapi
-
+from django_filters import rest_framework as filters
 import django_filters
-from .models import ProgrammingLanguage
+from .models import ProgrammingLanguage, PythonTopic
+
 
 class ProgrammingLanguageFilter(django_filters.FilterSet):
     def get_filters(self, request, view):
@@ -24,7 +25,7 @@ class ProgrammingLanguageFilter(django_filters.FilterSet):
         return queryset
 
 
-class ProgrammingLanguageFilterSet(django_filters.FilterSet):
+class ProgrammingLanguageFilterSet(filters.FilterSet):
     name = django_filters.CharFilter(lookup_expr='icontains')
     creation_time = django_filters.DateTimeFilter(field_name='creation_time')
     author = django_filters.CharFilter(field_name='author')
@@ -36,7 +37,7 @@ class ProgrammingLanguageFilterSet(django_filters.FilterSet):
         fields = ['name', 'creation_time', 'author', 'logo', 'detailed_information']
 
 
-class PyTopicFilter(django_filters.FilterSet):
+class PyTopicFilter(filters.FilterSet):
     topic_name = django_filters.CharFilter(lookup_expr='icontains')
     topic_subject = django_filters.CharFilter(lookup_expr='icontains')
     topic_content = django_filters.CharFilter(lookup_expr='icontains')

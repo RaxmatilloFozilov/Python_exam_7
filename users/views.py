@@ -1,11 +1,13 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.authentication import TokenAuthentication
+from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view
 from rest_framework.generics import CreateAPIView
 from rest_framework.response import Response
+
+
 from config.settings import sended_mails, EMAIL_HOST_USER, emails_list
-from rest_framework.views import APIView
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import get_user_model
 from users.serializers import UserSerializer
@@ -107,9 +109,11 @@ class LogoutView(APIView):
     permission_classes = [IsAuthenticated]
     filter_backends = (DjangoFilterBackend,)
 
-    def post(self, request, *args, **kwargs):  # Agar so'rov qilgan foydalanuvchi tokeni bilan tasdiqlangan bo'lsa
-        if request.auth:  # Tokenni ma'lumotlar bazasidan o'chiramiz
+    def post(self, request, *args, **kwargs):
+        if request.auth:
             request.auth.delete()
-            return Response({"detail": "Successfully logged out."}, status=200)
+            return Response({"detail": "Hisobdan muvaffaqiyatli chiqdi ✅."}, status=200)
         else:
-            return Response({"detail": "You have never been authenticated."}, status=401)
+            return Response({"detail": "Siz hech qachon autentifikatsiya qilinmagansiz ❎."}, status=401)
+
+
